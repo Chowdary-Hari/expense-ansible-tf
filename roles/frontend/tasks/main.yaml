@@ -43,7 +43,7 @@
     src: expense.conf
     dest: /etc/nginx/default.d/expense.conf
   notify:
-    - Restart nginx
+    - restart nginx
 
 
 - name: Restart nginx
