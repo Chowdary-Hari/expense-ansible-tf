@@ -22,23 +22,31 @@
 #    - Restart nginx
 
 
- - name: Installing Nginx
-   ansible.builtin.dnf:
-     name: nginx
-     state: present
+- name: Installing Nginx
+  ansible.builtin.dnf:
+    name: nginx
+    state: present
 
- - name: Copy expense config file
-   ansible.builtin.template:
-     src: expense.conf
-     dest: /etc/nginx/default.d/expense.conf
+- name: Start and Enable Nginx Service
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true
 
- - name: Import App Prerequisites
-   ansible.builtin.import_role:
-     name: common
-     tasks_from: app-pre-req
+- name: Import App Prerequisites
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-pre-req
 
- - name: Start Nginx Service
-   ansible.builtin.systemd_service:
-     state: restarted
-     name: nginx
-     enabled: true
+- name: Copy Expense Config File
+  ansible.builtin.template:
+    src: expense.conf
+    dest: /etc/nginx/default.d/expense.conf
+  notify:
+    - Restart nginx
+
+
+- name: Restart nginx
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
