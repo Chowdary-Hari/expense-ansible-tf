@@ -14,10 +14,21 @@
     name: common
     tasks_from: app-pre-req
 
-# if there is change in configuration only, then you need to restart nginx
-- name: copy backend conf
+- name: start and enable nginx
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Placing Expense Config File in Nginx
   ansible.builtin.template:
-    src: expense.conf.j2
+    src: expense.conf
     dest: /etc/nginx/default.d/expense.conf
-  notify:
-    - restart nginx
+
+
+- name: start and enable nginx
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
+
+
