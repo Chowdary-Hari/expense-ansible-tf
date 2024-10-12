@@ -39,7 +39,7 @@
   ansible.builtin.systemd_service:
     daemon_reload: true
 
-- name: enable backend service
+- name: Enable backend service
   ansible.builtin.service:
     name: backend
     enabled: yes
@@ -59,8 +59,6 @@
     target: /app/schema/backend.sql
     state: import
     name: all
-
-
 
 - name: start and enable backend service
   tags: 
